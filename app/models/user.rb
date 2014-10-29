@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   # e.g., User.authenticate('josh@codedivision.com', 'apples123')
+  has_many :rounds
+  
   validates_uniqueness_of :email
   validates :password, :email, :username, presence: true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create

@@ -1,0 +1,16 @@
+<div class="container">
+  <% if !@error_msg.nil?%>
+    <% @error_msg.each do |v| %>
+      <%= v %><br>
+    <% end %>
+  <% end %>
+  <h3>Create your own account below:</h3>
+  <form action="/signup" method="post">
+    Name: <input type="text" name="username"><br>
+    Username: <input type="text" name="email"><br>
+    Password: <input type="password" name="password"><br>
+    <input type="submit" value="Login">
+    <input type="reset" value="Reset">
+  </form>
+ 
+</div>

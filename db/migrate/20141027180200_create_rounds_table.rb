@@ -3,6 +3,7 @@ class CreateRoundsTable < ActiveRecord::Migration
     create_table :rounds do |t|
       t.integer :user_id, null:false, index: true
       t.integer :num_of_tries_left, default: 3
+      t.integer :deck_id, null:false, index: true
       
       t.timestamps
     end  

@@ -8,6 +8,8 @@
           <p><a href = "/decks/<%= deck.id %>"><%= deck.title %></a></p>
         <% end %>
     </div>
+    <div class = "display_result">
+    </div>  
   <% else %>
     <form name = "firstname" form action="/login" method="post">
       Username: <input type="text" name="email"><br>
@@ -18,3 +20,30 @@
     <br><a href ="/signup"> Register </a>
   <% end %>
 </div>
+
+<script>
+    $(document).ready(function()
+      {
+        $.ajax({
+            url:'<%= "/result" %>',
+            type: "GET",
+            success:function(result)
+            {
+              $(".display_result").html(result);
+              //debugger
+                //data: return data from server
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+            {
+              //debugger
+                //if fails
+            }
+          });
+      });
+
+</script>
+
+
+
+
+

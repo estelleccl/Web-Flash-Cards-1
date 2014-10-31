@@ -1,0 +1,46 @@
+<% temp = "" %>
+
+<h1>"Welcome <%= "#{username}" %>!"</h1>
+
+<div class="container">
+    <% @card.each do |element| %>
+        <div class = "question">
+            <%= element.question %>
+            <%temp = element.id%>
+        </div>
+        <div class = "answer">
+             <input type="text" id="answer1">
+        </div>
+    <% end %>
+</div>
+        
+<div class = "answer_space">
+</div>
+
+<script>
+    $(document).ready(function() {
+      $("#answer1").on('keyup', function(event) {
+        event.preventDefault();
+        if(event.which == 13) {
+          $.ajax({
+            url:'<%= "/cards/#{temp}/answer" %>',
+            type: "POST",
+            success:function(result)
+            {
+              $(".answer_space").html(result);
+              //debugger
+                //data: return data from server
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+            {
+              //debugger
+                //if fails
+            }
+          });
+
+        }
+      });
+   });
+</script>
+        
+        

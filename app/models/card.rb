@@ -4,7 +4,7 @@ class Card < ActiveRecord::Base
   
   def self.check_answer(card_id,answer)
     card = self.find_by(id: card_id)
-    if card.answer = answer
+    if card.answer == answer
       return true
     else
       return false

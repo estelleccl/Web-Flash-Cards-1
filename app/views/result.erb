@@ -1,0 +1,28 @@
+<div class="container">
+
+  <% @rounds.sort.each do |round| %>
+    <% @guesses_count = round.guesses.group( :correct ).count %>
+    <% if @guesses_count[false].nil? %>
+      <% @guesses_count[false] = 0 %>
+    <% end %>
+
+    <% if @guesses_count[true].nil? %>
+      <% @guesses_count[true] = 0 %>
+    <% end %>
+
+    Round <%= round.id %><br>
+    Number of False:<%= @guesses_count[false] %><br>
+    Number of True:<%= @guesses_count[true] %><br> <br>
+  
+    
+  <% end %>
+  
+  
+  
+  
+  
+  
+  
+  
+
+</div>

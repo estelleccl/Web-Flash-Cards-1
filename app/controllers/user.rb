@@ -24,6 +24,7 @@ end
 
 get '/logout' do
   session[:username] = nil
+  session[:round] = nil
   redirect "/"
 end
 

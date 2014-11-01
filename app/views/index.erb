@@ -1,13 +1,12 @@
 <div class="container">
   <% if login? %>
-    <h1>"Welcome <%= "#{username}" %>!"</h1>
-    <a href="/decks"> <button value="submit"> Let's Start the Game </button> </a> &nbsp;
+    <br><b>"Welcome <%= "#{username.camelize}" %>!"</b><br>
     <a href="/logout"> <button value="submit"> Logout </button> </a>
-    <div class = "container"
-        <% @decks.each do |deck| %>
-          <p><a href = "/decks/<%= deck.id %>"><%= deck.title %></a></p>
-        <% end %>
-    </div>
+    <hr>
+    <b> Let's start practising. Pick a Card.</b>
+    <% @decks.each do |deck| %>
+      <p><a href = "/decks/<%= deck.id %>"><%= deck.title %></a></p>
+    <% end %>
     <div class = "display_result">
     </div>  
   <% else %>
@@ -19,30 +18,29 @@
     </form>
     <br><a href ="/signup"> Register </a>
   <% end %>
+
+  <script>
+      $(document).ready(function()
+        {
+          $.ajax({
+              url:'<%= "/result" %>',
+              type: "GET",
+              success:function(result)
+              {
+                $(".display_result").html(result);
+                //debugger
+                  //data: return data from server
+              },
+              error: function(jqXHR, textStatus, errorThrown)
+              {
+                //debugger
+                  //if fails
+              }
+            });
+        });
+
+  </script>
 </div>
-
-<script>
-    $(document).ready(function()
-      {
-        $.ajax({
-            url:'<%= "/result" %>',
-            type: "GET",
-            success:function(result)
-            {
-              $(".display_result").html(result);
-              //debugger
-                //data: return data from server
-            },
-            error: function(jqXHR, textStatus, errorThrown)
-            {
-              //debugger
-                //if fails
-            }
-          });
-      });
-
-</script>
-
 
 
 

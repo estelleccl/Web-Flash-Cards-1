@@ -4,7 +4,7 @@ class CreateUsersTable < ActiveRecord::Migration
       t.string :username
       t.string :email, null:false, unique: true, index: true
       t.string :password, null:false
-      t.string :current_round
+      t.integer :current_round
       
       t.timestamps
     end  

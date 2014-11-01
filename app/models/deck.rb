@@ -3,4 +3,5 @@ class Deck < ActiveRecord::Base
   validates_uniqueness_of :title
   validates :title, presence: true
   has_many :cards
+  has_many :rounds
 end

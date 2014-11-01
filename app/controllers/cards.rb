@@ -3,22 +3,27 @@ post '/cards/:id/answer' do
     redirect "/"
   else 
     @card  = Card.find(params[:id])
-    @answer = Card.check_answer(params[:id], params[:answer])
-    round = Round.find_by(deck_id: @card.deck_id)
-    if round.num_of_tries_left != 0
-      if @answer
-        Guess.create(card_id: params[:id],  correct: "true", round_id: session[:round].id)
-      else
-        Guess.create(card_id: params[:id],  correct: "false", round_id: session[:round].id)
-        count = round.num_of_tries_left - 1
-        puts "Here is tries #{round.num_of_tries_left.inspect}"
-        puts "Here is count #{count.inspect}"
-        round.update(num_of_tries_left: count.to_i)
-      end
-      erb :'cards/answer'
+    @answer = Card.check_answer(params[:id], params[:answer1])
+    guess = Guess.create(card_id: params[:id], round_id: session[:round].id)
+    @round = Round.find(session[:round].id)
+    @round.update(num_of_questions_left: @round.num_of_questions_left - 1)
+
+    if @answer
+      @answer = "Correct!! Bravo"
+      guess.update(correct: "true")
     else
-      redirect "/"
+      @answer = "Wrong!!"
+      guess.update(correct: "false")
+      num_of_tries_left_count = @round.num_of_tries_left - 1
+      @round.update(num_of_tries_left: num_of_tries_left_count)
     end
+    if @round.num_of_tries_left <= 0
+      erb :'round/lost'
+    elsif @round.num_of_questions_left <= 0
+      erb :'round/won'
+    else
+      erb :'cards/answer'
+    end   
   end
 end
 
@@ -26,8 +31,16 @@ get '/cards' do
    if !login?
       redirect "/"
    else
-     deck = Deck.find_by(id: session[:round].deck_id)
+     user = User.find_by( username: session[:username] )
+     @round = Round.where( user_id: user.id ).count
+     deck = Deck.find_by( id: session[:round].deck_id )
      @card  = deck.cards.limit(1).order("RANDOM()")
      erb :'cards/show'
+   end
+end
+
+get '/cards/answer' do
+   if !login?
+      redirect "/"
    end
 end

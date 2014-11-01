@@ -1,28 +1,27 @@
-<div class="container">
+<% counter = @total_num_of_rounds %>
 
-  <% @rounds.sort.each do |round| %>
+<a href = "/results/all"> <input type="submit" value="Show All Result"></a>
+<a href = "/"> <input type="submit" value="Home"></a>
+<hr>
+  <br><b> Results of Last 6 Rounds: </b><br>
+  <% @rounds.sort.reverse.each do |round| %>
     <% @guesses_count = round.guesses.group( :correct ).count %>
     <% if @guesses_count[false].nil? %>
       <% @guesses_count[false] = 0 %>
     <% end %>
-
     <% if @guesses_count[true].nil? %>
       <% @guesses_count[true] = 0 %>
     <% end %>
-
-    Round <%= round.id %><br>
-    Number of False:<%= @guesses_count[false] %><br>
-    Number of True:<%= @guesses_count[true] %><br> <br>
-  
-    
+    <br>********************************************************
+    <br><br><b>Round</b> <%= counter %><br>
+    <br><b>Deck choosen: </b> <%= round.deck.title %><br><br>
+    ********************************************************<br>
+    <% total_num_guesses = 20 - round.num_of_questions_left %>
+    Number of False:&nbsp;<%= @guesses_count[false] %><br>
+    Number of True:&nbsp;<%= @guesses_count[true] %><br>
+    Total Numbers of Guesses:&nbsp; <%= total_num_guesses %><br>
+    Number of Cards Left:&nbsp; <%= round.num_of_questions_left  %><br>
+    <% counter = counter - 1 %>
   <% end %>
-  
-  
-  
-  
-  
-  
-  
-  
+<hr>
 
-</div>

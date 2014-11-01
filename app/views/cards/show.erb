@@ -1,46 +1,48 @@
-<% temp = "" %>
-
-<h1>"Welcome <%= "#{username}" %>!"</h1>
-
-<div class="container">
-    <% @card.each do |element| %>
-        <div class = "question">
-            <%= element.question %>
-            <%temp = element.id%>
-        </div>
-        <div class = "answer">
-             <input type="text" id="answer1">
-        </div>
-    <% end %>
+<div class="container"> 
+  <br><b>"Welcome <%= "#{username}" %>!"</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="/logout"> <button value="submit"> Logout </button> </a>
+</div>
+<div class="container"> 
+  <br><b>Round:</b> <%= @round %><br> <br>
+  <% @card.each do |element| %>
+  <form id= "question" action="/cards/<%= element.id %>/answer" method="post">
+    <div class = "question">
+      <b>Question:</b>&nbsp;<%= element.question %><br><br>
+    </div>
+    <b>Please enter your answer:</b>
+    <input type="text" name="answer1">
+    <input type="submit", value="Submit Your Answer">
+  </form>
+  <% end %>
 </div>
         
-<div class = "answer_space">
+<div id = "answer_space">
 </div>
 
 <script>
-    $(document).ready(function() {
-      $("#answer1").on('keyup', function(event) {
-        event.preventDefault();
-        if(event.which == 13) {
-          $.ajax({
-            url:'<%= "/cards/#{temp}/answer" %>',
-            type: "POST",
-            success:function(result)
-            {
-              $(".answer_space").html(result);
-              //debugger
-                //data: return data from server
-            },
-            error: function(jqXHR, textStatus, errorThrown)
-            {
-              //debugger
-                //if fails
-            }
-          });
-
+$(document).ready(function(){
+  $("#question").submit(function(event){
+    event.preventDefault(); //STOP default action
+    var postData = $(this).serializeArray();
+    var formURL = $(this).attr("action");
+    $.ajax(
+    {
+        url : formURL,
+        type: "POST",
+        data : postData,
+        success:function(result)
+        {
+          $("#answer_space").html(result);
+          //debugger
+            //data: return data from server
+        },
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+          //debugger
+            //if fails
         }
-      });
-   });
+    });
+    event.unbind(); //unbind. to stop multiple form submit.
+  });
+});
 </script>
-        
-        

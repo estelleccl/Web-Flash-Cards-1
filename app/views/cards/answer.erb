@@ -1,10 +1,9 @@
 <div class="container">
-  <%= @card.question %>
-  <br>
-    <%= @answer %>
-    <br>
-  <%= @card.answer %>
+  <h3><%= @answer %></h3>
+  <b>Number of Questions left:</b> <%= @round.num_of_questions_left %>&nbsp;&nbsp;&nbsp;
+  <b>Number of Chances Left:</b> <%= @round.num_of_tries_left %>/3<br>
+  
+  <br><br><b>The correct answer:</b>&nbsp;<%= @card.answer %>
+  <br><br><a href = "/cards"><button type="button">Next Card</button></a>
 </div>
         
-<a href = "/cards">
-  <button type="button">Next Card</button></a>

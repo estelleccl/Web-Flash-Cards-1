@@ -1,0 +1,18 @@
+<div class="container">
+  <h1> You Lost </h1>
+  <% @round.guesses.each do |result| %>
+    <% @guesses_count = @round.guesses.group( :correct ).count %>
+    <% if @guesses_count[false].nil? %>
+      <% @guesses_count[false] = 0 %>
+    <% end %>
+
+    <% if @guesses_count[true].nil? %>
+      <% @guesses_count[true] = 0 %>
+    <% end %>
+  <% end %>
+  <b>Round</b> <%= @round.id %><br>
+  <b>Number of False:</b><%= @guesses_count[false] %><br>
+  <b>Number of True:</b><%= @guesses_count[true] %><br> <br>
+  
+  <a href = "/"> <input type="submit" value="home"></a>
+</div>
